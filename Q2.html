@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duck Page</title>
+</head>
+<body>
+
+    <h1>Duck Form</h1>
+
+    <form id="duckForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" required><br>
+
+        <label for="color">Color:</label>
+        <input type="text" id="color" required><br>
+
+        <label for="age">Age:</label>
+        <input type="number" id="age" required><br>
+
+        <label for="weight">Weight:</label>
+        <input type="number" id="weight" required><br>
+
+        <label for="picture">Picture URL:</label>
+        <input type="text" id="picture" required><br>
+
+        <button type="button" onclick="createDuck()">Create Duck</button>
+    </form>
+
+    <div id="duckDetails"></div>
+    <p id="quackDetails"></p>
+
+    <button id="showButton" onclick="showDuck()">Show</button>
+    <button id="quackButton" onclick="quack()">Quack</button>
+
+    <script>
+        function createDuck() {
+            var name = document.getElementById("name").value;
+            var color = document.getElementById("color").value;
+            var age = document.getElementById("age").value;
+            var weight = document.getElementById("weight").value;
+            var picture = document.getElementById("picture").value;
+
+            var duckDetails = document.getElementById("duckDetails");
+            duckDetails.innerHTML = `Name: ${name}<br>Color: ${color}<br>Age: ${age}<br>Weight: ${weight}<br>`;
+
+            
+            if (picture) {
+                duckDetails.innerHTML += `Picture: <img src="${picture}" alt="Duck Picture" style="max-width: 200px;">`;
+            }
+
+            
+            duckDetails.style.display = "block";
+
+            
+            document.getElementById("createDuckButton").disabled = true;
+        }
+
+        function showDuck() {
+            var duckDetails = document.getElementById("duckDetails");
+
+            
+            if (duckDetails.style.display === "block") {
+                duckDetails.style.display = "none";
+            } else {
+                duckDetails.style.display = "block";
+            }
+        }
+
+        function quack() {
+            var age = parseInt(document.getElementById("age").value);
+            var weight = parseInt(document.getElementById("weight").value);
+
+            var quackTimes = age * weight / 2;
+
+            var quackText = "";
+            for (var i = 0; i < quackTimes; i++) {
+                quackText += "quack ";
+            }
+  
+            document.getElementById("quackDetails").innerHTML = quackText;
+        }
+    </script>
+
+</body>
+</html>

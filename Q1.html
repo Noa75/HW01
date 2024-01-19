@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counter App</title>
+</head>
+<body>
+
+    <div>
+        <label for="counterInput">Value:</label>
+        <input type="number" id="counterInput" />
+        <button onclick="startCounter()">Start</button>
+    </div>
+
+    <div>
+        <input type="number" id="displayInput" disabled />
+        <button onclick="increment()">+</button>
+        <button onclick="go()">Go</button>
+    </div>
+
+    <script>
+        class Counter {
+            constructor() {
+                this.value = 0;
+            }
+
+            initialize(initialValue) {
+                this.value = initialValue;
+                document.getElementById('displayInput').value = this.value;
+            }
+
+            increment() {
+                this.value += this.value; 
+                document.getElementById('displayInput').value = this.value;
+            }
+
+            go() {
+                const resultContainer = document.getElementById('resultContainer');
+                resultContainer.innerHTML = '';
+
+                for (let i = 0; i <= this.value; i++) {
+                    resultContainer.innerHTML += i + ', ';
+                }
+            }
+        }
+
+        let counter;
+
+        function startCounter() {
+            const initialValue = parseInt(document.getElementById('counterInput').value);
+            counter = new Counter();
+            counter.initialize(initialValue);
+        }
+
+        function increment() {
+            if (counter) {
+                counter.increment();
+            } else {
+                alert('start the counter first.');
+            }
+        }
+
+        function go() {
+            if (counter) {
+                counter.go();
+            } else {
+                alert('start the counter first.');
+            }
+        }
+    </script>
+
+    <div id="resultContainer"></div>
+
+</body>
+</html>

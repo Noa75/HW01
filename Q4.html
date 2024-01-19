@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <script>
+        class Point {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+            }
+
+            show() {
+                return `(${this.x}, ${this.y})`;
+            }
+
+            equals(point) {
+                return this.x === point.x && this.y === point.y;
+            }
+
+            distanceTo(otherPoint) {
+                return Math.sqrt((this.x - otherPoint.x) ** 2 + (this.y - otherPoint.y) ** 2);
+            }
+        }
+
+        function f1(x, y, array) {
+            let newPoint = new Point(x, y);
+            return array.some(point => point.equals(newPoint));
+        }
+
+        function f2(array, dot) {
+            return array.some(point => point.equals(dot));
+        }
+
+        function f3(array) {
+            let totalDistance = 0;
+            for (let i = 0; i < array.length - 1; i++) {
+                totalDistance += array[i].distanceTo(array[i + 1]);
+            }
+            return totalDistance;
+        }
+
+        let pointsArray = [new Point(1, 2), new Point(2, 3), new Point(3, 4)];
+
+        function checkPointF1() {
+            let x = parseInt(document.getElementById('x').value);
+            let y = parseInt(document.getElementById('y').value);
+            let result = f1(x, y, pointsArray);
+            document.getElementById('resultF1').textContent = result ?
+                "Point exists in array (f1)." : "Point does not exist in array (f1).";
+        }
+
+        function checkPointF2() {
+            let x = parseInt(document.getElementById('x').value);
+            let y = parseInt(document.getElementById('y').value);
+            let dot = new Point(x, y);
+            let result = f2(pointsArray, dot);
+            document.getElementById('resultF2').textContent = result ?
+                "Point exists in array (f2)." : "Point does not exist in array (f2).";
+        }
+
+        function calculateRouteLength() {
+            let length = f3(pointsArray);
+            document.getElementById('routeLength').textContent =
+                `Total length of the route: ${length.toFixed(2)}`;
+        }
+
+        function displayPointsArray() {
+            let display = pointsArray.map(point => point.show()).join(', ');
+            document.getElementById('arrayDisplay').textContent = `Array of Points: [${display}]`;
+        }
+
+        window.onload = displayPointsArray;
+    </script>
+</head>
+<body>
+    <label for="x">X:</label>
+    <input type="number" id="x" name="x"><br><br>
+    <label for="y">Y:</label>
+    <input type="number" id="y" name="y"><br><br>
+
+    <p id="arrayDisplay"></p>
+
+    <button onclick="checkPointF1()">Check Point (f1)</button>
+    <p id="resultF1"></p>
+
+    <button onclick="checkPointF2()">Check Point (f2)</button>
+    <p id="resultF2"></p>
+
+    <button onclick="calculateRouteLength()">Calculate Route Length (f3)</button>
+    <p id="routeLength"></p>
+</body>
+</html>

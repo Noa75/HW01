@@ -1,0 +1,109 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World Clocks</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>World Clocks</h2>
+
+    <form id="watchForm">
+        <label for="countryName">Country Name:</label>
+        <input type="text" id="countryName" required>
+
+        <label for="hours">Hours:</label>
+        <input type="number" id="hours" min="0" max="23" required>
+
+        <label for="minutes">Minutes:</label>
+        <input type="number" id="minutes" min="0" max="59" required>
+
+        <label for="seconds">Seconds:</label>
+        <input type="number" id="seconds" min="0" max="59" required>
+
+        <button type="button" onclick="addWatch()">Add Watch</button>
+    </form>
+
+    <table id="watchTable">
+        <tr>
+            <th>Country</th>
+            <th>Time</th>
+            <th>Converted to Seconds</th>
+        </tr>
+    </table>
+
+    <script>
+        class Watch {
+            constructor(country, hours, minutes, seconds) {
+                this.country = country;
+                this.hours = hours;
+                this.minutes = minutes;
+                this.seconds = seconds;
+            }
+
+            convertToSeconds() {
+                return this.hours * 3600 + this.minutes * 60 + this.seconds;
+            }
+
+            show() {
+                const formatTime = (time) => (time < 10 ? `0${time}` : time);
+                return `${formatTime(this.hours)}:${formatTime(this.minutes)}:${formatTime(this.seconds)}`;
+            }
+        }
+
+        const watches = [];
+
+        function addWatch() {
+            const countryName = document.getElementById('countryName').value;
+            const hours = parseInt(document.getElementById('hours').value);
+            const minutes = parseInt(document.getElementById('minutes').value);
+            const seconds = parseInt(document.getElementById('seconds').value);
+
+            const newWatch = new Watch(countryName, hours, minutes, seconds);
+            watches.push(newWatch);
+
+            document.getElementById('watchForm').reset();
+
+
+            if (watches.length === 5) {
+                updateTable();
+            }
+        }
+
+        function updateTable() {
+            const table = document.getElementById('watchTable');
+
+            while (table.rows.length > 1) {
+                table.deleteRow(1);
+            }
+
+
+            watches.forEach((watch) => {
+                const row = table.insertRow(-1);
+                const cell1 = row.insertCell(0);
+                const cell2 = row.insertCell(1);
+                const cell3 = row.insertCell(2);
+
+                cell1.innerHTML = watch.country;
+                cell2.innerHTML = watch.show();
+                cell3.innerHTML = watch.convertToSeconds();
+            });
+        }
+    </script>
+
+</body>
+</html>
